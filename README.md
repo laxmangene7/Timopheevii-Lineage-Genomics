@@ -1,2 +1,3 @@
 # Timopheevii-Lineage-Genomics
-Script and codes used to analyzed genomics dataset gnerated for the project Evolutionary Dynamics of the ‘Unsuccessful’ Timopheevii Wheat Lineage are presented here. We have generated genome assemblies of Triticum. timopheevii and T. zhukovskyi, analyzed WGS of T. timopheevii and also generated skim-seq in T. zhukovskyi and timococcum. 
+This repository contains the scripts and code used to analyze the genomic datasets generated for the project "Evolutionary Dynamics of the ‘Unsuccessful’ Timopheevii Wheat Lineage."
+We assembled the genomes of Triticum timopheevii and T. zhukovskyi, analyzed whole-genome sequencing (WGS) data of T. timopheevii, and generated skim-seq data for both T. zhukovskyi and T. monococcum.
