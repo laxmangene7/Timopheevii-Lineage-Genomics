@@ -4,7 +4,7 @@ library(data.table)
 
 ##### Script to generate plot in Figure 2 of Manuscript
 
-bed_files <- list.files(pattern = "\\.bed$")
+bed_files <- list.files(pattern = "\\.bed$") ## The bed files were produced with the script provided https://github.com/sandeshsth/SkimSeq_Method or [Adhikari et al. 2022; https://www.nature.com/articles/s41598-022-19858-2] 
 
 # Process each file
 for (input_file in bed_files) {
