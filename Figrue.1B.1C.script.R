@@ -5,7 +5,7 @@ library(gridExtra)
 options(scipen=999)
 library(data.table)
 
-########### figure 1B. @@@@@@@@
+########### figure 1B. @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 df4 <- fread("chr7A.4G.TA2804-CENH3-combined.10Kb_coverage.Chipseq.added.txt", header = T, check.names = T, data.table = F)
 
@@ -35,30 +35,11 @@ plot1 <- ggplot(data = subset(df6, df6$nread<35), aes(x=pos, y=nread, colour=rea
   scale_color_manual(values = c("Cenh3" = '#690B22', "TA877_chr7A.reads" = '#0d47a1', "TA877_chr4G.reads" = '#ff6d00', "TA877_chr5A.reads" = '#1976d2')) + ## alpha =1 means fully opaque and alpha =0 means fully transparent
   theme(
     strip.text = element_blank(),
-    #legend.title = element_blank(),
-    #legend.text = element_blank(),
     legend.position = "none",
-    #panel.grid.major.x = element_line(size = 0.08, linetype = 'solid',colour = "gray68"),
-    #panel.grid.major.y = element_line(size = 0.08, linetype = 'solid',colour = "gray68"),
     panel.background = element_rect(fill="white"),
     #panel.spacing = unit(1.5, "lines"),
-    #   strip.text=element_text(vjust=0),
-    
-    #strip.text.y.right = element_text(angle = 0, face="bold", size="14"),
-    #panel.border=element_rect(colour="black",size=0.4, fill=NA), ##
-    #axis.line = element_line(colour = "black")
-    #axis.text = element_text( size = 14, face="bold" ),
-    #axis.text.x = element_text( size = 12 ),
-    #axis.title = element_text(  size = 16, face = "bold" ),
-    # legend.position="none",
-    # TheSe new stuff
-    #strip.text = element_text( size = 20) 
-    
-  )
-
-#ggsave("Figure.1B.april.6.2025.png", plot1, width = 3.94, height = 1.18, units = "in", limitsize = F)
-
-
+      )
+                     
 ggsave("Figure.1B.april.6.2025.png", plot1,
        width = 15.94,
        height = 5.18,
@@ -106,36 +87,9 @@ plot2 <- ggplot(data = subset(df6_filtered, df6_filtered$nread<35), aes(x=pos, y
   theme(
     
     strip.text = element_blank(),
-    #legend.title = element_blank(),
-    #legend.text = element_blank(),
     legend.position = "none",
-    #panel.grid.major.x = element_line(size = 0.08, linetype = 'solid',colour = "gray68"),
-    #panel.grid.major.y = element_line(size = 0.08, linetype = 'solid',colour = "gray68"),
-    panel.background = element_rect(fill="white"),
-    #panel.spacing = unit(1.5, "lines"),
-    #   strip.text=element_text(vjust=0),
-    
-    #strip.text.y.right = element_text(angle = 0, face="bold", size="14"),
-    #panel.border=element_rect(colour="black",size=0.4, fill=NA), ##
-    #axis.line = element_line(colour = "black")
-    #axis.text = element_text( size = 14, face="bold" ),
-    #axis.text.x = element_text( size = 12 ),
-    #axis.title = element_text(  size = 16, face = "bold" ),
-    # legend.position="none",
-    # TheSe new stuff
-    #strip.text = element_text( size = 20) 
-    
+    panel.background = element_rect(fill="white"),    
   )
-
-#ggsave("TA877.reads.zoom.in.1B.new.zoom.april.6.2025.pdf", plot2, width = 24.5, height = 6, units = "in", limitsize = F) ## chaged from 18.5 width and 5 height 
-
-
-#ggsave("Figure.1C.april.6.2025.svg", plot2, 
-#       width = 24.5, height = 6, units = "in",
-#       limitsize = FALSE, 
-#       device = svg,  # Use svg() device for advanced options
-#       bg = "white",  # Ensure white background
-#       antialias = "default")  # For sm
 
 ggsave("Figure.1C.april.6.2025_1.png", plot2,
        width = 15.94,
