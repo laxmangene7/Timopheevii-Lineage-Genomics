@@ -5,6 +5,7 @@ library(gridExtra)
 options(scipen=999)
 library(data.table)
 
+
 ########### figure 1B. @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 df4 <- fread("ChIP-Seq_chr7A.4G.TA2804-CENH3-combined.10Kb.added.txt", header = T, check.names = T, data.table = F)
@@ -15,8 +16,7 @@ head(df4)
 df4 <- df4[ which(df4$chr=='chr7A_TA2804'), ] ## this was just to plot chr7A 
 head(df4)
 
-# df6 <- fread("TA877.wild.reads.with.TA2804.ref.sam.10kb.tab.txt.norm.10x.Reseq.txt", header = F, check.names = T, data.table = F)
-df6 <- fread("ReSeq_1b.bottom.10.kb.chr4G.5A.7A.txt.norm.5A.curated.10x.txt", header = F, check.names = T, data.table = F)
+df6 <- fread("ReSeq_1b.bottom.10.kb.chr4G.7A.10x.txt", header = F, check.names = T, data.table = F)
 
 head(df6)
 colnames(df6)[1:6] = c('raw_count', 'chr', 'pos', 'read.mapped','nread', 'sample_type')
