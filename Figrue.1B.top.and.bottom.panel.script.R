@@ -8,7 +8,7 @@ library(data.table)
 
 ########### figure 1B. @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-df4 <- fread("ChIP-Seq_chr7A.4G.TA2804-CENH3-combined.10Kb.added.txt", header = T, check.names = T, data.table = F)
+df4 <- fread("ChIP-Seq_1b.top.10.kb.chr4G.7A.10x.txt", header = T, check.names = T, data.table = F)
 
 colnames(df4)[1:6] = c('raw_count', 'chr', 'pos', 'read.mapped', 'nread', 'sample_type')
 head(df4)
