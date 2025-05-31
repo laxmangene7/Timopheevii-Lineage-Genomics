@@ -10,4 +10,5 @@ Run Figrue1B.top.and.bottom.panel.script.R using provided input files in Require
 ### _T_zhukovskyi_ coverage plot: Fig 2a and Supplementary Fig. 1 
 Run T. zhukovskyi.coverage.plot.R using bed files in T.zhukovksyi_bed.file.for.coverage.plot.zip
 
-### _T_timococcum_ coverage plot: Fig 2a and Supplementary Fig. 1 
+### _T_timococcum_ coverage plot: Supplementary Fig. 1 
+Run T.timococcum.coverage.plot.R using bed files in T.zhukovksyi_bed.file.for.coverage.plot.zip
