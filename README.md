@@ -2,5 +2,6 @@
 This repository contains the scripts and code used to analyze the genomic datasets generated for the project "Evolutionary dynamics of the ‘unsuccessful’ Timopheevii wheat lineage."
 We assembled the genomes of _Triticum_ _timopheevii_ and _T_. _zhukovskyi_, analyzed whole-genome sequencing (WGS) data of T. timopheevii, and generated skim-seq data for both T. zhukovskyi and T. monococcum.
 
-## Figure 1: circos
-Run Fig1a.T.timpheevii.circos.plot.script.R using provided input files in Required_files folder to obtain the circos plot. 
+## Figure 1: circos, centromere and Robertsonian translocation (7A :4G) breaking point
+Run Fig1A.T.timpheevii.circos.plot.script.R using provided input files in Required_files folder to obtain the circos plot. ## fig 1a
+Run Figrue1B.top.and.bottom.panel.script.R using provided input files in Required_files folder to obtain coverage plots. ## fig 1b
