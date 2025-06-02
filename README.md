@@ -12,3 +12,7 @@ Run T. zhukovskyi.coverage.plot.R using bed files in T.zhukovksyi_bed.file.for.c
 
 ### _T_timococcum_ coverage plot: Supplementary Fig. 1 
 Run T.timococcum.coverage.plot.R using bed files in T.zhukovksyi_bed.file.for.coverage.plot.zip
+
+### T_zhukovskysi heat map: Extended Data Fig. 3b
+Run zhukovskyi.all.duplicates.heatmap.R using input file in the Required files folder. 
+![image](https://github.com/user-attachments/assets/400b1393-ca75-409c-9445-859398841730)
