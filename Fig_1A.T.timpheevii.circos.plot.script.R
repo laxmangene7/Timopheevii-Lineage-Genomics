@@ -1,155 +1,224 @@
-
-png("main_fig1_circos.png", width = 3000, height = 3000, res = 300)
 library(ggplot2)
-
 library(circlize)
 
+# ------------------------------------------------------------------
+# OPEN THE SVG DEVICE FIRST
+# ------------------------------------------------------------------
+svg("circos_plot_updated.11.24.2025.svg", width = 11, height = 11)
 
+# ------------------------------------------------------------------
+# REDUCE OUTER MARGINS FOR GOOD LABEL POSITIONS
+# ------------------------------------------------------------------
+par(mai = c(0.2, 0.6, 0.3, 0.6)) 
+# bottom, left, top, right
+
+# Clear any previous circos
 circos.clear()
 
-
-# Text color for the labels
+# Text color for axes/labels
 col_text <- "black"
 
-# Set global parameters for the plot
-circos.par("track.height" = 0.4, 
-           gap.degree = c(rep(2.5, 13), 10, rep(2.5, 14)),  # Adjust the gap for separation between TA877 and TA2804
-           cell.padding = c(0, 0, 0, 0))
+# Chromosome order
+chromosomes <- c(
+  "chr1A_TA877","chr2A_TA877","chr3A_TA877","chr4A_TA877","chr5A_TA877","chr6A_TA877","chr7A_TA877",
+  "chr1G_TA877","chr2G_TA877","chr3G_TA877","chr4G_TA877","chr5G_TA877","chr6G_TA877","chr7G_TA877",
+  "chr7G_TA2804","chr6G_TA2804","chr5G_TA2804","chr4G_TA2804","chr3G_TA2804","chr2G_TA2804","chr1G_TA2804",
+  "chr7A_TA2804","chr6A_TA2804","chr5A_TA2804","chr4A_TA2804","chr3A_TA2804","chr2A_TA2804","chr1A_TA2804",
+  "chr1A","chr2A","chr3A","chr4A","chr5A","chr6A","chr7A",
+  "chr1G","chr2G","chr3G","chr4G","chr5G","chr6G","chr7G"
+)
 
-# Define chromosome colors: blue for TA877, orange for TA2804
-chr_colors <- c("chr1A_TA877" = "#f4a171ff", "chr2A_TA877" = "#f4a171ff", "chr3A_TA877" = "#f4a171ff", "chr4A_TA877" = "#f4a171ff",
-                "chr5A_TA877" = "#f4a171ff", "chr6A_TA877" = "#f4a171ff", "chr7A_TA877" = "#f4a171ff", "chr1G_TA877" = "#cc875eff",
-                "chr2G_TA877" = "#cc875eff", "chr3G_TA877" = "#cc875eff", "chr4G_TA877" = "#cc875eff", "chr5G_TA877" = "#cc875eff",
-                "chr6G_TA877" = "#cc875eff", "chr7G_TA877" = "#cc875eff",
-                "chr7G_TA2804" = "#a9c8e1ff", "chr6G_TA2804" = "#a9c8e1ff",
-                "chr5G_TA2804" = "#a9c8e1ff", "chr4G_TA2804" = "#a9c8e1ff", "chr3G_TA2804" = "#a9c8e1ff", "chr2G_TA2804" = "#a9c8e1ff",
-                "chr1G_TA2804" = "#a9c8e1ff", "chr7A_TA2804" = "#c0e3ffff", "chr6A_TA2804" = "#c0e3ffff", "chr5A_TA2804" = "#c0e3ffff",
-                "chr4A_TA2804" = "#c0e3ffff", "chr3A_TA2804" = "#c0e3ffff", "chr2A_TA2804" = "#c0e3ffff", "chr1A_TA2804" = "#c0e3ffff")
+# Gaps
+default_gap <- 2
+gaps <- rep(default_gap, length(chromosomes))
 
-# Initialize circular layout with chromosome limits and specific colors
-circos.initialize(factors = c("chr1A_TA877", "chr2A_TA877", "chr3A_TA877", "chr4A_TA877", "chr5A_TA877", "chr6A_TA877",  "chr7A_TA877", 
-                              "chr1G_TA877",  "chr2G_TA877",  "chr3G_TA877","chr4G_TA877",  "chr5G_TA877",  "chr6G_TA877", "chr7G_TA877",
-                              
-                              "chr7G_TA2804", "chr6G_TA2804", "chr5G_TA2804", "chr4G_TA2804", "chr3G_TA2804", "chr2G_TA2804", "chr1G_TA2804", 
-                              "chr7A_TA2804",  "chr6A_TA2804",  "chr5A_TA2804","chr4A_TA2804",  "chr3A_TA2804",  "chr2A_TA2804","chr1A_TA2804"),
-                 xlim = matrix(c(rep(0, 28), c(602656826, 771401179, 675871483, 773897100, 691724660,  595162121, 728204638, 
-                                               499920424, 683726055, 670590195, 659442802,  662613401, 593054900, 715925247,
-                                               
-                                               696135035, 599005360, 649451578, 726833302, 667333744, 689748856, 497037353,
-                                               746009334,  582428954,  614132190, 772671662,  670699037,  768562081,  613121534)), ncol = 2))
+gaps[which(chromosomes == "chr7G_TA877")]   <- 8
+gaps[which(chromosomes == "chr1A_TA2804")]  <- 6
+gaps[which(chromosomes == "chr7G")]         <- 6
 
-# Track for chromosome names, displaying simplified names
-circos.track(ylim = c(0, 3), ## I changed from 1 to 3
-             panel.fun = function(x, y) {
-               chr = CELL_META$sector.index
-               display_chr <- sub("_.*", "", chr)
-               xlim = CELL_META$xlim
-               ylim = CELL_META$ylim
-               #circos.text(mean(xlim), mean(ylim), display_chr, cex = 0.95, col = "white",
-               #           font = 2, # bold font
-               #            facing = "bending.inside", niceFacing = TRUE)
-             },
-             bg.col = chr_colors[as.character(get.all.sector.index())],  # Set background color for each chromosome
-             bg.border = FALSE,
-             track.height = 0.1) 
-            
+# Chrom lengths (your values)
+xlim_vals <- matrix(c(rep(0, 42), c(
+  602656826, 771401179, 675871483, 773897100, 691724660, 595162121, 728204638,
+  499920424, 683726055, 670590195, 659442802, 662613401, 593054900, 715925247,
+  696135035, 599005360, 649451578, 726833302, 667333744, 689748856, 497037353,
+  746009334, 582428954, 614132190, 772671662, 670699037, 768562081, 613121534,
+  606421902, 766211424, 672715223, 764583328, 684654349, 591560360, 734384476,
+  508095237, 680075684, 840473417, 650379239, 479247860, 584502105, 697235649
+)), ncol = 2)
 
-# Set breakpoints for the axis
-brk <- c(0, 200, 400, 600, 800) * 10^6 ## i changed it from 0, 100, 200 to 800 to this style to increase font size
+# Circos parameters
+circos.par(
+  track.height = 0.4,
+  gap.degree = gaps,
+  cell.padding = c(0,0,0,0),
+  start.degree = 30
+)
 
-# Track for chromosome axis, same for all chromosomes
-circos.track(track.index = get.current.track.index(),
-             panel.fun = function(x, y) {
-               #circos.axis(h = "top",
-               #             major.at = brk,
-               #             labels = round(brk / 10^6, 1),
-               #             labels.cex = 0.8,
-                           #col = col_text,
-                           #labels.col = col_text,
-               #             lwd = 0.9,
-               #             labels.facing = "clockwise")
-             },
-             bg.border = FALSE)
+# Colors for each chromosome
+chr_colors <- c(
+  "chr1A_TA877"="orange2","chr2A_TA877"="orange2","chr3A_TA877"="orange2","chr4A_TA877"="orange2",
+  "chr5A_TA877"="orange2","chr6A_TA877"="orange2","chr7A_TA877"="orange2",
+  "chr1G_TA877"="#FFB668","chr2G_TA877"="#FFB668","chr3G_TA877"="#FFB668","chr4G_TA877"="#FFB668",
+  "chr5G_TA877"="#FFB668","chr6G_TA877"="#FFB668","chr7G_TA877"="#FFB668",
+  "chr7G_TA2804"="#abc2ff","chr6G_TA2804"="#abc2ff","chr5G_TA2804"="#abc2ff","chr4G_TA2804"="#abc2ff",
+  "chr3G_TA2804"="#abc2ff","chr2G_TA2804"="#abc2ff","chr1G_TA2804"="#abc2ff",
+  "chr7A_TA2804"="#00b3d8","chr6A_TA2804"="#00b3d8","chr5A_TA2804"="#00b3d8","chr4A_TA2804"="#00b3d8",
+  "chr3A_TA2804"="#00b3d8","chr2A_TA2804"="#00b3d8","chr1A_TA2804"="#00b3d8",
+  "chr1A"="#266ed9","chr2A"="#266ed9","chr3A"="#266ed9","chr4A"="#266ed9","chr5A"="#266ed9","chr6A"="#266ed9","chr7A"="#266ed9",
+  "chr1G"="#1e97ff","chr2G"="#1e97ff","chr3G"="#1e97ff","chr4G"="#1e97ff","chr5G"="#1e97ff","chr6G"="#1e97ff","chr7G"="#1e97ff"
+)
 
+# Initialize
+circos.initialize(factors = chromosomes, xlim = xlim_vals)
 
+# ------------------------------------------------------------------
+# CHROMOSOME LABELS
+# ------------------------------------------------------------------
+circos.track(
+  ylim = c(0, 3),
+  bg.col = chr_colors[chromosomes],
+  bg.border = FALSE,
+  track.height = 0.1,
+  panel.fun = function(x, y) {
+    chr <- CELL_META$sector.index
+    label <- gsub("chr|_.*", "", chr)
+    circos.text(
+      mean(CELL_META$xlim), mean(CELL_META$ylim),
+      label,
+      cex = 1.3, col = "white", font = 2,
+      facing = "bending.inside", niceFacing = TRUE
+    )
+  }
+)
 
-### Density plots and genomic tracks
+# ------------------------------------------------------------------
+# GENOMIC TRACKS
+# ------------------------------------------------------------------
 
-# High-confidence genes density plot
-circos.genomicTrack(data = read.table("HC_both.genome.gene.density.txt", header = TRUE), 
-                    panel.fun = function(region, value, ...) {
-                      circos.genomicLines(region, 1 * (value), type = "h", area = TRUE, col = "#177e89", lwd = 0.7)
-                    }, 
-                    track.height = 0.06, bg.border = FALSE)
+# Gene density
+circos.genomicTrack(
+  read.table("HC_three.genomes.gene.density.txt", header = TRUE),
+  track.height = 0.06, bg.border = FALSE,
+  panel.fun = function(region, value, ...) {
+    circos.genomicLines(region, value, type = "h", area = TRUE,
+                        col = "grey10", lwd = 0.7)
+  }
+)
 
-# Gypsy-TE density plot
-circos.genomicTrack(data = read.table("Both_TA2804.TA877.Gypsy.10Mb.density.txt", header = TRUE),
-                    panel.fun = function(region, value, ...) {
-                      circos.genomicLines(region, 1 * (value), type = "h", area = TRUE, col = "#db3a34", lwd = 0.7)
-                    }, 
-                    track.height = 0.06, bg.border = FALSE)
+# Gypsy
+circos.genomicTrack(
+  read.table("three.genomes.Gypsy.txt", header = TRUE),
+  track.height = 0.06, bg.border = FALSE,
+  panel.fun = function(region, value, ...) {
+    circos.genomicLines(region, value, type = "h", area = TRUE,
+                        col = "pink4", lwd = 0.7)
+  }
+)
 
-# Copia-TE elements density plot
-circos.genomicTrack(data = read.table("Both_TA2804.TA877.Copia.10Mb.density.txt", header = TRUE),
-                    panel.fun = function(region, value, ...) {
-                      circos.genomicLines(region, 1 * (value), type = "h", area = TRUE, col = "#084c61", lwd = 0.7)
-                    }, 
-                    track.height = 0.06, bg.border = FALSE)
+# Copia
+circos.genomicTrack(
+  read.table("three.genomes.Copia.txt", header = TRUE),
+  track.height = 0.06, bg.border = FALSE,
+  panel.fun = function(region, value, ...) {
+    circos.genomicLines(region, value, type = "h", area = TRUE,
+                        col = "magenta", lwd = 0.7)
+  }
+)
 
-# CENh3 density plot
-circos.genomicTrack(data = read.table("CENH3.TA2804.mapping.for.circos.txt", header = TRUE),
-                    panel.fun = function(region, value, ...) {
-                      circos.genomicLines(region, 1 * (value), type = "h", area = TRUE, col = "#690B22", lwd = 0.7)
-                    }, 
-                    track.height = 0.06, bg.border = FALSE)
+# CENH3
+circos.genomicTrack(
+  read.table("combined.CENh3.TA2804.mapping.for.circos.txt", header = TRUE),
+  track.height = 0.06, bg.border = FALSE,
+  panel.fun = function(region, value, ...) {
+    circos.genomicLines(region, value, type = "h", area = TRUE,
+                        col = "brown", lwd = 0.7)
+  }
+)
 
-# Synteny plot between homeologous chromosomes
-syntenic_data <- read.table("Translocation.7A.4G.5A.txt", header = TRUE)
+# ------------------------------------------------------------------
+# SYNTENY LINKS
+# ------------------------------------------------------------------
 
-# Define color mapping for different chromosome pairs
-# Define color mapping for different chromosome pairs
+syntenic_data <- read.table("only.translocation.txt", header = TRUE)
+
 color_mapping <- c(
-  "chr1A_TA2804-chr1A_TA877" = "#90caf9", "chr1G_TA2804-chr1G_TA877" = "#ff4800",
-  "chr2A_TA2804-chr2A_TA877" = "#64b5f6", "chr2G_TA2804-chr2G_TA877" = "#ff5400",
-  "chr3A_TA2804-chr3A_TA877" = "#42a5f5", "chr3G_TA2804-chr3G_TA877" = "#ff6000",
-  "chr4A_TA2804-chr4A_TA877" = "#1e88e5", "chr4G_TA2804-chr4G_TA877" = "#ff6d00",
-  "chr5A_TA2804-chr5A_TA877" = "#1976d2", "chr5G_TA2804-chr5G_TA877" = "#ff7900",
-  "chr6A_TA2804-chr6A_TA877" = "#1565c0", "chr6G_TA2804-chr6G_TA877" = "#ff8500",
-  "chr7A_TA2804-chr7A_TA877" = "#0d47a1", "chr7G_TA2804-chr7G_TA877" = "#ff9100",
-  "chr7A_TA2804-chr4G_TA877" = "#c05299", "chr4G_TA2804-chr7A_TA877" = "#973aa8",
-  "chr4G_TA2804-chr5A_TA877" = "#6d23b6"
+  "chr1A_TA2804-chr1A_TA877" = "#D01C8B", "chr1G_TA2804-chr1G_TA877" = "#D7191C",
+  "chr2A_TA2804-chr2A_TA877" = "#FDAE61", "chr2G_TA2804-chr2G_TA877" = "#F4A582",
+  "chr3A_TA2804-chr3A_TA877" = "#FFEDA0", "chr3G_TA2804-chr3G_TA877" = "#FFFFCC",
+  "chr4A_TA2804-chr4A_TA877" = "#D9EF8B", "chr4G_TA2804-chr4G_TA877" = "purple4",
+  "chr5A_TA2804-chr5A_TA877" = "orange", "chr5G_TA2804-chr5G_TA877" = "#2C7BB6",
+  "chr6A_TA2804-chr6A_TA877" = "#ABD9E9", "chr6G_TA2804-chr6G_TA877" = "#67A9CF",
+  "chr7A_TA2804-chr7A_TA877" = "blue2", "chr7G_TA2804-chr7G_TA877" = "#0571B0",
+  
+  "chr7A_TA2804-chr4G_TA877" = "#00b3d8", "chr4G_TA2804-chr7A_TA877" = "#abc2ff",
+  "chr4G_TA2804-chr5A_TA877" = "#abc2ff",  "chr5A_TA2804-chr4G_TA877" = "#00b3d8",
+  
+  "chr1A_TA2804-chr1A" = "#D01C2B", "chr1G_TA2804-chr1G" = "#D7118C",
+  "chr2A_TA2804-chr2A" = "#FDAE21", "chr2G_TA2804-chr2G" = "#F4A532",
+  "chr3A_TA2804-chr3A" = "#FFEDA5", "chr3G_TA2804-chr3G" = "#FFFFCB",
+  "chr4A_TA2804-chr4A" = "#D9EF3B", "chr4G_TA2804-chr4G" = "purple2",
+  "chr5A_TA2804-chr5A" = "orange2", "chr5G_TA2804-chr5G" = "#2C7BB3",
+  "chr6A_TA2804-chr6A" = "#ABD9E9", "chr6G_TA2804-chr6G" = "#67A4CF",
+  "chr7A_TA2804-chr7A" = "blue1", "chr7G_TA2804-chr7G" = "#0571B2",
+  
+  "chr5A_TA2804-chr4G" = "#266ed9", "chr4G_TA2804-chr5A" = "#1e97ff",
+  "chr3G_TA2804-chr5G" = "#1e97ff", "chr5G_TA2804-chr3G" = "#1e97ff",
+  
+  "chr1A_TA877-chr1A" = "#D01C2B", "chr1G_TA877-chr1G" = "#D7118C",
+  "chr2A_TA877-chr2A" = "#FDAE21", "chr2G_TA877-chr2G" = "#F4A532",
+  "chr3A_TA877-chr3A" = "#FFEDA5", "chr3G_TA877-chr3G" = "#FFFFCB",
+  "chr4A_TA877-chr4A" = "#D9EF3B", "chr4G_TA877-chr4G" = "purple2",
+  "chr5A_TA877-chr5A" = "orange2", "chr5G_TA877-chr5G" = "#2C7BB3",
+  "chr6A_TA877-chr6A" = "#ABD9E9", "chr6G_TA877-chr6G" = "#67A4CF",
+  "chr7A_TA877-chr7A" = "blue1", "chr7G_TA877-chr7G" = "#0571B2",
+  
+  "chr7A_TA877-chr4G" = "orange2", "chr4G_TA877-chr7A" = "#FFB668",
+  "chr4G_TA877-chr5A" = "#FFB668", "chr5G_TA877-chr3G" = "#FFB668",
+  "chr3G_TA877-chr5G" = "#FFB668"
 )
 
 
-# Draw links between orthologues
+
 for (i in 1:nrow(syntenic_data)) {
-  chr1 <- syntenic_data[i, "chr1"]
-  chr2 <- syntenic_data[i, "chr2"]
-  region1 <- syntenic_data[i, 2:3]  # Start1 and End1
-  region2 <- syntenic_data[i, 5:6]  # Start2 and End2
-  
-  # Create key for color mapping
+  chr1 <- syntenic_data$chr1[i]
+  chr2 <- syntenic_data$chr2[i]
   key <- paste(chr1, chr2, sep = "-")
-  
-  
-  # Check if key exists in color_mapping, otherwise assign a default color
-  if (key %in% names(color_mapping)) {
-    col <- color_mapping[key]
-  } else {
-    col <- "black"  # Default color if the key is not found
-  }
-  
-  # Draw genomic link with specific color and thin line
-  circos.genomicLink(region1 = data.frame(syntenic_data[i, 1:3]), 
-                     region2 = data.frame(syntenic_data[i, 4:6]), 
-                     col = color_mapping[key], 
-                     lwd = 0.15)  
+  col <- ifelse(key %in% names(color_mapping),
+                color_mapping[key], "black")
+  circos.genomicLink(
+    region1 = syntenic_data[i, 1:3],
+    region2 = syntenic_data[i, 4:6],
+    col = col,
+    lwd = 0.15
+  )
 }
 
+# ------------------------------------------------------------------
+# TITLES / LEGENDS
+# ------------------------------------------------------------------
 
+#title(main = "KU-1948B (ARA-1)", cex.main = 2, font.main = 2, line = -1)
+
+# Place TA2804 LEFT side
+#mtext("TA2804 (Domesticated)", side = 2, line = 0.2, cex = 1.8, font = 2)
+
+# Place TA877 RIGHT side
+#mtext("TA877 (ARA-0)", side = 4, line = 0.2, cex = 1.8, font = 2)
+
+title(main = "KU-1948B (ARA-1)", cex.main = 2, font.main = 2, line = -1)
+
+# Place TA2804 LEFT side, smaller font, closer to circos
+mtext("TA2804 (Domesticated)", side = 2, line = 0, cex = 1.5, font = 2)
+
+# Place TA877 RIGHT side, smaller font, closer to circos
+mtext("TA877 (ARA-0)", side = 4, line = 0, cex = 1.5, font = 2)
+
+
+
+# ------------------------------------------------------------------
+# End
+# ------------------------------------------------------------------
 dev.off()
-
-# Clear the plot when done
 circos.clear()
 
 
