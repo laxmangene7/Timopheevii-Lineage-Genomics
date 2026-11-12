@@ -39,13 +39,13 @@ Each script ends with `code/check_reproduction.py`, which prints PASS or FAIL fo
 - `merged/*_stats.tsv`, `merged/*_violin_tests.tsv`, final figure files
 
 ## How dosage and HE breakpoints are called
-# 1-Mb normalized coverage (main repository)
+### 1-Mb normalized coverage (main repository)
 Reads were trimmed, mapped, and counted in 1-Mb bins, followed by normalization to genome coverage as described in [Adhikari et al. 2022](https://doi.org/10.1038/s41598-022-19858-2). The resulting normalized values correspond to two copies = 1, one copy = 0.5, three copies = 1.5, and four copies = 2. The plots (see the main README) showed that the G chromosomes were mostly intact, whereas the At and Am subgenomes underwent extensive exchanges in both T. zhukovskyi and T. timococcum.
 
-# 100-kb dosage calling (this folder)
+### 100-kb dosage calling (this folder)
 Dosage was calibrated separately for each plant using chromosomes 3G, 5G, and 7G, which are present at two copies in all plants except one T. timococcum plant, timo_MVGB573-1T1_F4-17. In this plant, chromosome 5G carries a homoeologous exchange resulting in three copies from 193.5 Mb to the chromosome end. Therefore, only chromosomes 3G and 7G were used for dosage calibration in this plant. The one-copy depth was estimated as half the median depth across the selected calibration chromosomes. A seven-state hidden Markov model (0–6 copies; negative-binomial emissions; Viterbi decoding) was used to assign dosage to each chromosome. Segments shorter than 3 Mb were merged, meaning that smaller exchanges were not called. Windows showing atypical depth in most plants of a species, consistent with mapping artefacts or differences fixed between the parental genomes and the reference, were masked.
 
-# HE definition and statistical tests
+### HE definition and statistical tests
 A breakpoint was classified as an HE breakpoint when an Am breakpoint had a corresponding reciprocal At breakpoint, with an equal and opposite dosage change, on the same homoeologous chromosome in the same plant. Each Am–At breakpoint pair was counted only once across plants (492 in T. timococcum, 129 in T. zhukovskyi, and 616 combined). HE-active regions were defined as the distal regions outside the HE-free centromeric and pericentromeric regions (tables/). K-mer variation (k = 31; FastIBS; 100-kb windows) in breakpoint windows was compared with that in non-breakpoint windows within HE-active regions using Mann–Whitney U tests, chromosome-stratified permutation tests (10,000 permutations; minimum attainable p-value of 1 × 10⁻⁴), and a paired Wilcoxon test comparing breakpoint windows with neighbouring non-breakpoints windows.
 To reproduce the results, run run_timococcum.sh, run_zhukovskyi.sh, and run_merged.sh. The script check_reproduction.py verifies the results.
 <img width="468" height="436" alt="image" src="https://github.com/user-attachments/assets/b4454a9e-7e87-4c0a-be4a-4aef3229d628" />
