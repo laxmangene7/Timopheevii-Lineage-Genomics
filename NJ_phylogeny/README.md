@@ -16,7 +16,7 @@ R with `ape` (CRAN) and `SNPRelate` and `gdsfmt` (Bioconductor).
 
 ## Input
 
-`timopheevii_WGS_SNPs.vcf.gz` (with its `.csi` index). This is the SNP set from reads mapped to the *T. timopheevii* TA2804 v1.3 reference. Steps that produced it, as recorded in the VCF header:
+`timopheevii_WGS_SNPs.vcf.gz` (with its `.csi` index). The VCF is too large for GitHub and is available on Dryad: [doi:10.5061/dryad.ksn02v7g7](https://doi.org/10.5061/dryad.ksn02v7g7). Download it into this folder before running. This is the SNP set from reads mapped to the *T. timopheevii* TA2804 v1.3 reference. Steps that produced it, as recorded in the VCF header:
 
 1. `bcftools mpileup` (SNPs only) and `bcftools call -m`
 2. `bcftools filter`: QUAL ≥ 30, INFO/DP ≥ 20, ≤ 20% missing, 0.01 < AF < 0.99
@@ -25,7 +25,7 @@ R with `ape` (CRAN) and `SNPRelate` and `gdsfmt` (Bioconductor).
 
 ## Method
 
-- **Samples:** IG46434, IG116164 and IG116166 are excluded because we identified them as non-timopheevii accessions. SNPs that are monomorphic among the remaining samples are dropped.
+- **Samples:** IG46434, IG116164 and IG116166 were excluded because we identified them as non-*timopheevii* accessions. SNPs that are monomorphic among the remaining samples are dropped.
 - **Distance:** For each sample pair, allele sharing is `1 - |g_i - g_j| / 2`, averaged over SNPs called in both samples. It is then rescaled against the mean similarity of all pairs: `D = 1 - (M - MB) / (1 - MB)`.
 - **Bootstrap:** 1,000 replicates. Each SNP gets a Poisson(1) weight per replicate, which approximates resampling SNPs with replacement. Genotypes are read in 20,000-SNP chunks. Setting `BLOCK_BOOTSTRAP <- TRUE` gives a block bootstrap with one weight per chunk instead.
 - **Tree and support:** The NJ tree (`ape::nj`) is built from the full-data distance. Node support is the percentage of bootstrap trees that contain each clade (`ape::prop.clades`).
@@ -47,4 +47,3 @@ Progress is saved every 1,000,000 SNPs (`timopheevii_NJ_checkpoint.RData`). If t
 | `timopheevii_NJ_unrooted_bootstrap_NJ.nwk` | Unrooted NJ tree with bootstrap support (%) |
 | `timopheevii_NJ_bootstrap_trees.nwk` | The 1,000 bootstrap trees |
 | `timopheevii_NJ_distmat_ref.txt` | Full-data distance matrix |
-
