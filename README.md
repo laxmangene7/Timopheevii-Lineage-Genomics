@@ -1,6 +1,6 @@
 # Timopheevii-Lineage-Genomics
 This repository contains the scripts and code used to analyze the genomic datasets generated for the project "Evolutionary dynamics of the ‘unsuccessful’ Timopheevii wheat lineage."
-We assembled the genomes of _Triticum_ _timopheevii_ and _T_. _zhukovskyi_, analyzed whole-genome sequencing (WGS) data of T. timopheevii, and generated skim-seq data for both T. zhukovskyi and T. monococcum.
+We assembled the genomes of _Triticum_ _timopheevii_ and _T_. _zhukovskyi_, analyzed whole-genome sequencing (WGS) data of T. timopheevii, and generated skim-seq data for both *T. zhukovskyi* and *T. monococcum*.
 
 ### Figure 1: circos, centromere and Robertsonian translocation (7A :4G) breaking point
 Run Fig_1A.T._timpheevii_.circos.plot.script.R using provided input files in Required_files folder to obtain the circos plot. ## fig 1a
@@ -26,8 +26,8 @@ Code, input read counts (`data/`), k-mer tables, the three run scripts and the f
 
     cd HE_breakpoints
     python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt
-    bash run_timococcum.sh     # T. timococcum breakpoints, HE pairs and plots
-    bash run_zhukovskyi.sh     # T. zhukovskyi breakpoints, HE pairs and plots
+    bash run_timococcum.sh     # *T. timococcum* breakpoints, HE pairs and plots
+    bash run_zhukovskyi.sh     # *T. zhukovskyi breakpoints*, HE pairs and plots
     bash run_merged.sh         # combined histogram and violin plot with statistics
 
 Each script ends with a PASS/FAIL check of the manuscript numbers. See `HE_breakpoints/README.md` for details.
