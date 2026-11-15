@@ -16,7 +16,7 @@ R with `ape` (CRAN) and `SNPRelate` and `gdsfmt` (Bioconductor).
 
 ## Input
 
-`timopheevii_WGS_SNPs.vcf.gz` (with its `.csi` index). The VCF is too large for GitHub and is available on Dryad: [doi:10.5061/dryad.ksn02v7g7](https://doi.org/10.5061/dryad.ksn02v7g7). Download it into this folder before running. This is the SNP set from reads mapped to the *T. timopheevii* TA2804 v1.3 reference. Steps that produced it, as recorded in the VCF header:
+`timopheevii_WGS_SNPs.vcf.gz` (with its `.csi` index). The VCF is too large for GitHub and is available on Dryad: [doi:10.5061/dryad.ksn02v7g7](https://doi.org/10.5061/dryad.ksn02v7g7). Download it into this folder before running. This is the SNP set from reads mapped to the domesticated *T. timopheevii* (TA2804) reference generated in this study. Steps that produced it, as recorded in the VCF header:
 
 1. `bcftools mpileup` (SNPs only) and `bcftools call -m`
 2. `bcftools filter`: QUAL ≥ 30, INFO/DP ≥ 20, ≤ 20% missing, 0.01 < AF < 0.99
