@@ -34,4 +34,13 @@ Each script ends with a PASS/FAIL check of the manuscript numbers. See `HE_break
 
 This analysis uses 100-kb read counts (HE_breakpoints/data/) and is independent of the 1-Mb bed files used for the coverage plots above.
 
+## Rooted bootstrapped NJ phylogeny of *T. timopheevii*
+
+Code to build a rooted neighbour-joining (NJ) tree with 1,000 bootstrap replicates from the filtered *T. timopheevii* WGS SNP set. The tree is rooted on four confirmed wild emmer (*T. dicoccoides*) accessions: PI538450, IG116176, KU-1982 and TA873 (from Hakan Türkiye). The scripts and their detailed README are in the folder [`NJ_phylogeny/`](NJ_phylogeny/). To replicate (on a SLURM cluster, with R packages `ape`, `SNPRelate` and `gdsfmt`):
+
+    cd NJ_phylogeny
+    sbatch run_NJ_phylogeny.sh   # VCF -> GDS, distances, 1,000 bootstrap NJ trees, support values, rooting
+
+The main output is `timopheevii_NJ_rooted_bootstrap_NJ.nwk`, a rooted NJ tree with bootstrap support (%) on its nodes. See `NJ_phylogeny/README.md` for the method and all output files.
+
 **AI assistance**. Claude (Anthropic) was used to help write the code and documentation for the HE breakpoint analysis. The authors independently verified the code and results, including by checking breakpoints multiple times against read-depth coverage plots and an independent R-based analysis, and by reproducing the numbers from the raw read counts using the provided check scripts.
