@@ -25,7 +25,7 @@ R with `ape` (CRAN) and `SNPRelate` and `gdsfmt` (Bioconductor).
 
 ## Method
 
-- **Samples:** IG46434, IG116164 and IG116166 are excluded. SNPs that are monomorphic among the remaining samples are dropped.
+- **Samples:** IG46434, IG116164 and IG116166 are excluded because we identified them as non-timopheevii accessions. SNPs that are monomorphic among the remaining samples are dropped.
 - **Distance:** For each sample pair, allele sharing is `1 - |g_i - g_j| / 2`, averaged over SNPs called in both samples. It is then rescaled against the mean similarity of all pairs: `D = 1 - (M - MB) / (1 - MB)`.
 - **Bootstrap:** 1,000 replicates. Each SNP gets a Poisson(1) weight per replicate, which approximates resampling SNPs with replacement. Genotypes are read in 20,000-SNP chunks. Setting `BLOCK_BOOTSTRAP <- TRUE` gives a block bootstrap with one weight per chunk instead.
 - **Tree and support:** The NJ tree (`ape::nj`) is built from the full-data distance. Node support is the percentage of bootstrap trees that contain each clade (`ape::prop.clades`).
