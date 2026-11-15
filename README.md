@@ -36,10 +36,9 @@ This analysis uses 100-kb read counts (HE_breakpoints/data/) and is independent 
 
 ## Rooted bootstrapped NJ phylogeny of *T. timopheevii*
 
-Code to build a rooted neighbour-joining (NJ) tree with 1,000 bootstrap replicates from the filtered *T. timopheevii* WGS SNP set. The tree is rooted on four confirmed wild emmer (*T. dicoccoides*) accessions: PI538450, IG116176, KU-1982 and TA873 (from Hakan Türkiye). The scripts and their detailed README are in the folder [`NJ_phylogeny/`](NJ_phylogeny/). To replicate (on a SLURM cluster, with R packages `ape`, `SNPRelate` and `gdsfmt`):
+Code to build a rooted neighbour-joining (NJ) tree with 1,000 bootstrap replicates from the filtered *T. timopheevii* WGS SNP set. The tree is rooted on four confirmed wild emmer (T. dicoccoides) accessions: PI538450, IG116176, KU-1982 and TA873_Hakan. TA873_Hakan is the TA873 accession obtained from Hakan (Türkiye). However, an accession with the same name (TA873) from the Kansas State University Wheat Genetics Resource Center (WGRC) gene bank grouped with *T. timopheevii*. The scripts and their detailed README are in the folder [`NJ_phylogeny/`](NJ_phylogeny/). To replicate (on a SLURM cluster, with R packages `ape`, `SNPRelate` and `gdsfmt`):
 
-    cd NJ_phylogeny
-    sbatch run_NJ_phylogeny.sh   # VCF -> GDS, distances, 1,000 bootstrap NJ trees, support values, rooting
+    The scripts, run instructions and method details are in NJ_phylogeny/; see NJ_phylogeny/README.md. The input VCF is on Dryad: doi:10.5061/dryad.ksn02v7g7.
 
 The main output is `timopheevii_NJ_rooted_bootstrap_NJ.nwk`, a rooted NJ tree with bootstrap support (%) on its nodes. See `NJ_phylogeny/README.md` for the method and all output files.
 
