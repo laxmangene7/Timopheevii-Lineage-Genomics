@@ -51,7 +51,7 @@ To reproduce the results, run run_timococcum.sh, run_zhukovskyi.sh, and run_merg
 <img width="468" height="436" alt="image" src="https://github.com/user-attachments/assets/b4454a9e-7e87-4c0a-be4a-4aef3229d628" />
 
 ## Expected numbers
-*T. timococcum*: 492 unique exact reciprocal HE pairs (663 in individual plants); reliable breakpoints 1,469 HE, 2,634 Non-HE structural, 701 G-genome.
+*T. timococcum*: 487 unique exact reciprocal HE pairs (663 in individual plants); reliable breakpoints 1,469 HE, 2,634 Non-HE structural, 701 G-genome.
 *T. zhukovskyi*: 129 unique pairs (359 in individual plants); 923, 604, 129.
 Merged: 616 pairs; mean k-mer variation 919 (Am) and 953 (At) at breakpoints vs 1,077 and 1,087 at non-breakpoint HE-active windows; Cohen's d −0.70 and −0.66.
 Permutation p-values are random and differ slightly between runs (reported as P < 1e-4 with 10,000 permutations).
